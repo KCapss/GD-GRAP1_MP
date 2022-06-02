@@ -1,6 +1,7 @@
 #include "Space.h"
 #include "ObjectTextureManager.h"
 
+
 Space::Space(int length, int width)
 {
 	ObjectTextureManager::getInstance()->loadAll();
@@ -8,6 +9,7 @@ Space::Space(int length, int width)
 
     lightSrc = new Light(glm::vec3(-10.0f, 0, 0));
     mainCam = new PerspectiveCamera();
+    alterCam = new OrthographicCamera();
 
 
 	this->lengthDim = length;
@@ -42,10 +44,15 @@ bool Space::initializeWindow()
 void Space::initializeObj()
 {
     //Instantiate all obj
+    skybox = new Skybox("skybox");
     model = new Model("sword", WithTexture, this->window);
+   
 
     //Retrieve their source
-    model->retrieveSource(lightSrc, mainCam);
+    skybox->retrieveSource(lightSrc, mainCam, alterCam);
+    model->retrieveSource(lightSrc, mainCam, alterCam);
+   
+
 
     //Set their position
     model->setInitialPos(glm::vec3(0.5f, 0, 0));
@@ -56,7 +63,14 @@ void Space::draw()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    
+    /*glDepthMask(GL_FALSE);
+    glDepthFunc(GL_LEQUAL);*/
+
+    skybox->draw();
+
+    //glDepthMask(GL_TRUE);
+    //glDepthFunc(GL_LESS);
+
     model->draw();
 
 
@@ -71,5 +85,5 @@ void Space::draw()
 void Space::deleteBuffer()
 {
     model->deAllocate();
-
+    glfwTerminate();
 }

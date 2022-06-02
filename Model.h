@@ -16,11 +16,13 @@
 #include "Shader.h"
 #include "Light.h"
 #include "PerspectiveCamera.h" // Replace Later with specific camera type
+#include "OrthographicCamera.h"
 
 enum ObjectType {
 	NoTexture = 0,
 	WithTexture = 1,
-	Skybox = 2
+	SkyboxObj = 2,
+	TextureAndNormals = 3
 };
 
 //Optianal Feature enum for Rotating Debris
@@ -36,11 +38,11 @@ class Model
 {
 
 public:
-	Model();
+	Model(); //Empty 
 	Model(std::string name, ObjectType objType, GLFWwindow *currWindow); //Universal of the Class
 
 	//Setup Function
-	void retrieveSource(Light* light, PerspectiveCamera* perspCam); // All external model have same sources
+	void retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam); // All external model have same sources
 	void setInitialPos(glm::vec3 pos);
 
 
@@ -61,11 +63,20 @@ public:
 	void deAllocate();
 
 
-private:
+protected:
 	//Obj information = Default
 	std::string name{};
 	ObjectType objType = ObjectType::NoTexture; 
+	GLFWwindow* window;
 
+	//class container
+	Light* light;
+	Shader* shader;
+	PerspectiveCamera* perspCam;
+	OrthographicCamera* orthoCam;
+
+
+protected:
 	//Obj Vertex data
 	std::vector<GLfloat> fullVertexData{};
 	unsigned char* tex_bytes;
@@ -78,19 +89,8 @@ private:
 	//Obj Properties
 	glm::vec3 position = glm::vec3(0);
 
-	//class container
-	Light *light;
-	Shader* shader;
-	PerspectiveCamera* perspCam;
-
-	GLFWwindow* window;
-
 	
-
 	
-
-
-
 
 };
 

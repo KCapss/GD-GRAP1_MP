@@ -22,7 +22,7 @@ class Shader
 {
 
 public:
-	Shader(std::string name, GLFWwindow* window);
+	Shader(std::string name);
 	void initialize();
 	
 	//Getter
@@ -42,14 +42,15 @@ public:
 	void LightUpdate(Light *refLight); //Retrieve Light Class;
 
 	void cameraUpdatePos(glm::vec3 cameraPos);
-	
+
+//Normal Map
+	//To be Discuss Next Meeting
 
 
 private:
 	std::string name;
 
 	GLuint shaderProgram;
-	GLFWwindow *window;
 
 
 

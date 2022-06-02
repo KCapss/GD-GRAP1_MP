@@ -8,10 +8,8 @@
 #include <vector>
 
 
-Shader::Shader(std::string name, GLFWwindow* window)
+Shader::Shader(std::string name)
 {
-
-    this->window = window;
     this->name = name;
     
 }

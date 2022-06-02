@@ -8,8 +8,10 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Model.h"
+#include "Skybox.h"
 #include "Light.h"
 #include "PerspectiveCamera.h"
+#include "OrthographicCamera.h"
 
 #include <string>
 #include <iostream>
@@ -34,13 +36,14 @@ public:
 	
 private:
 	//Interface:
-	//Model for the Skybox;
+	Skybox* skybox;
 	//Model for the player;
 	Model* model; //change into vector later Note. An array of Debris
 
 	//External Src
 	Light* lightSrc;
 	PerspectiveCamera* mainCam;
+	OrthographicCamera* alterCam;
 
 	int lengthDim = 0, widthDim = 0; //set default
 

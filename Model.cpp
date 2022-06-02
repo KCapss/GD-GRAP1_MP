@@ -9,6 +9,7 @@
 
 Model::Model()
 {
+    //Default option as base class
 }
 
 Model::Model(std::string name, ObjectType objType, GLFWwindow* currWindow)
@@ -16,21 +17,14 @@ Model::Model(std::string name, ObjectType objType, GLFWwindow* currWindow)
 	this->name = name;
 	this->objType = objType;
     this->window = currWindow;
-
-    /*if (!glfwInit()) {
-        std::cout << "error";
-    }*/
-
-    //glfwMakeContextCurrent(this->window);
-    //gladLoadGL();
     
 
-    //light = new Light(glm::vec3(-10.0f, 0, 0));
-    shader = new Shader(this->name, this->window);
+    
+    shader = new Shader(this->name);
     //perspCam = new PerspectiveCamera();
     
 
-    if (this->objType != Skybox) {
+    if (this->objType != SkyboxObj) {
         loadObj();
         if (this->objType != NoTexture) {
             loadTexture();
@@ -40,16 +34,18 @@ Model::Model(std::string name, ObjectType objType, GLFWwindow* currWindow)
 
 }
 
-void Model::retrieveSource(Light* light, PerspectiveCamera* perspCam)
+void Model::retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam)
 {
     this->light = light;
     this->perspCam = perspCam;
+    this->orthoCam = orthoCam;
 }
 
 void Model::setInitialPos(glm::vec3 pos)
 {
     this->position = pos;
 }
+
 
 void Model::loadObj()
 {
@@ -127,6 +123,8 @@ void Model::loadObj()
     shader->initialize();
 }
 
+
+//Might Change due to not teaching the normals yet
 void Model::loadTexture()
 {
     //Initialize for Texture (JPG)
@@ -213,7 +211,7 @@ void Model::loadBuffer()
         (void*)uvPtr //Offset from the start
     );
 
-    if (objType != ObjectType::Skybox) {
+    if (objType != ObjectType::SkyboxObj) {
         if (objType != ObjectType::NoTexture) {
             glEnableVertexAttribArray(2);  //UV MAP
             glEnableVertexAttribArray(1);  //Normal Map
