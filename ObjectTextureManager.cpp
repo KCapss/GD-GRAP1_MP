@@ -16,9 +16,15 @@ void ObjectTextureManager::loadAll()
 {
 	//Loading for Obj
 	loadObj("sword", "3D/sword.obj");
+	loadObj("refrigerator", "3D/refrigerator.obj");
+	//loadObj("ship", "3D/ship.obj");
+	loadObj("ship", "3D/statue.obj");
 
 	//Loading for Texture;
 	loadTexture("sword", "3D/swordTexture.jpg");
+	loadTexture("refrigerator", "3D/refrigeratorTexture.jpg");
+	//loadTexture("ship", "3D/shipTexture.obj");
+	loadTexture("ship", "3D/statueTexture.jpg");
 
 	//Additional Feat. Load for Skybox Array List;
 }

@@ -10,10 +10,11 @@ public:
     //Getter Function
     glm::mat4 getProjection();
 
+    //Update Function
+
+
 private:
 
     glm::mat4 projection;
-
-
 };
 

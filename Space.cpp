@@ -45,33 +45,34 @@ void Space::initializeObj()
 {
     //Instantiate all obj
     skybox = new Skybox("skybox");
-    model = new Model("sword", WithTexture, this->window);
+    model = new Model("ship", WithTexture, this->window);
+    player = new Player("sword", this->window);
    
 
     //Retrieve their source
     skybox->retrieveSource(lightSrc, mainCam, alterCam);
     model->retrieveSource(lightSrc, mainCam, alterCam);
+    player->retrieveSource(lightSrc, mainCam, alterCam);
    
-
 
     //Set their position
     model->setInitialPos(glm::vec3(0.5f, 0, 0));
 
 }
 
+void Space::update()
+{
+    player->update();
+}
+
 void Space::draw()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    /*glDepthMask(GL_FALSE);
-    glDepthFunc(GL_LEQUAL);*/
-
     skybox->draw();
 
-    //glDepthMask(GL_TRUE);
-    //glDepthFunc(GL_LESS);
-
     model->draw();
+    player->draw();
 
 
     /* Swap front and back buffers */

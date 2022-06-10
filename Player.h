@@ -7,29 +7,24 @@ class Player :
 {
 public:
     //Constructor
-    Player(std::string);
+    Player(std::string name, GLFWwindow *window);
 
-    enum currCam { Perspective = 1, Orthographic = 2};
-    
-    
-
-    //Switch Function
+    //switch
     void cameraSwitch();
     void lightSwitch();
 
+    
     //UpdateFunction
-    void playerMovement();
+    //void playerMovement();
     void updateCamera();
 
-    
-    void draw(); //override base class draw()
+    void update();
+    //void draw(); //override base class draw()
 
 private:
     float camDistance;
-    glm::mat4 transform = glm::mat4(1.0f);
-
-    bool isShipLightActive = true; //default Parameter
-
+    glm::mat4 shipTransform = glm::mat4(1.0f);
+    
 
     //Note: Create a singleton for inputManager
 

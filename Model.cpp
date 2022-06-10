@@ -228,12 +228,47 @@ void Model::loadBuffer()
 
 }
 
+glm::vec3 Model::retrieveCamPos()
+{
+    if (currCam == ActiveCam::Perspective) {
+        return this->perspCam->getCameraPos();
+    }
+
+    else if (currCam == ActiveCam::Orthographic) {
+        return this->orthoCam->getCameraPos();
+    }
+}
+
+glm::mat4 Model::retrieveCamMat()
+{
+    if (currCam == ActiveCam::Perspective) {
+        return this->perspCam->getViewMatrix();
+    }
+
+    else if (currCam == ActiveCam::Orthographic) {
+        return this->orthoCam->getViewMatrix();
+    }
+}
+
+glm::mat4 Model::retrieveCamProj()
+{
+    if (currCam == ActiveCam::Perspective) {
+        return this->perspCam->getProjection();
+    }
+
+    else if (currCam == ActiveCam::Orthographic) {
+        return this->perspCam->getProjection();
+    }
+}
+
 void Model::draw()
 {
     //Apply Linear Transformation (Default)
     glm::mat4 identity = glm::mat4(1.0f);
     glm::mat4 transform = glm::translate(identity, this->position);
     transform = glm::scale(transform, glm::vec3(.25f, .25f, .25f)); //default scaling
+    //transform = glm::scale(transform, glm::vec3(2.25f, 2.25f, 2.25f)); //default other obj
+
 
     glUseProgram(shader->getShaderProg());
 

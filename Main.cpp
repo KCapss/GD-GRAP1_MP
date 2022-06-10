@@ -32,7 +32,7 @@ int main(void)
        
         //Update Data Function Call
         //Some function
-
+        space->update();
 
         //Draw Function Call
         space->draw();

@@ -25,6 +25,8 @@ enum ObjectType {
 	TextureAndNormals = 3
 };
 
+enum ActiveCam { Perspective = 1, Orthographic = 2 };
+
 //Optianal Feature enum for Rotating Debris
 
 
@@ -39,12 +41,11 @@ class Model
 
 public:
 	Model(); //Empty 
-	Model(std::string name, ObjectType objType, GLFWwindow *currWindow); //Universal of the Class
+	Model(std::string name, ObjectType objType, GLFWwindow *currWindow); //Universal Constructor of the Class
 
 	//Setup Function
-	void retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam); // All external model have same sources
-	void setInitialPos(glm::vec3 pos);
-
+	void retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam); // All model have same sources
+	void setInitialPos(glm::vec3 pos); //Debri Pre defined starting Pos
 
 	//Initialization Process
 	void loadObj();
@@ -52,11 +53,20 @@ public:
 	void loadBuffer();
 	//void loadShaders();
 
+
+//Getter Function
+	//Camera
+	glm::vec3 retrieveCamPos();
+	glm::mat4 retrieveCamMat();
+	glm::mat4 retrieveCamProj();
+
+
 	//EdgeCase Process
 	/*void loadSkyboxtexture();*/
 
 
-	//Process
+//Process
+	//Switch Function
 	void draw();
 
 	//Removing Buffer after program ends
@@ -66,8 +76,12 @@ public:
 protected:
 	//Obj information = Default
 	std::string name{};
-	ObjectType objType = ObjectType::NoTexture; 
 	GLFWwindow* window;
+
+
+	ObjectType objType = ObjectType::NoTexture;
+	ActiveCam  currCam = Perspective;
+	
 
 	//class container
 	Light* light;
@@ -75,6 +89,7 @@ protected:
 	PerspectiveCamera* perspCam;
 	OrthographicCamera* orthoCam;
 
+	
 
 protected:
 	//Obj Vertex data
@@ -88,6 +103,10 @@ protected:
 private:
 	//Obj Properties
 	glm::vec3 position = glm::vec3(0);
+
+	//Animation
+	GLuint currTime;
+	float deltaTime = 0;
 
 	
 	

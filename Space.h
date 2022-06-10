@@ -9,6 +9,9 @@
 
 #include "Model.h"
 #include "Skybox.h"
+#include "Player.h"
+
+
 #include "Light.h"
 #include "PerspectiveCamera.h"
 #include "OrthographicCamera.h"
@@ -26,19 +29,17 @@ public:
 
 	void initializeObj();
 
+	void update();
 	void draw();
 	void deleteBuffer();
 	
-	
-	
 
-
-	
 private:
 	//Interface:
 	Skybox* skybox;
 	//Model for the player;
 	Model* model; //change into vector later Note. An array of Debris
+	Player* player;
 
 	//External Src
 	Light* lightSrc;

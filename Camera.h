@@ -21,7 +21,10 @@ public:
 	//Setter Function
 
 
-public:
+	//update function
+	void newCamPosition(glm::mat4 shipPosTransformMat, glm::vec3 rotateVector, float distance);
+
+protected:
 	//Components for viewMatrix
 	glm::vec3 cameraPos;
 	glm::vec3 WorldUp;
