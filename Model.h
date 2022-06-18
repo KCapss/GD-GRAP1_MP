@@ -46,11 +46,15 @@ public:
 	//Setup Function
 	void retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam); // All model have same sources
 	void setInitialPos(glm::vec3 pos); //Debri Pre defined starting Pos
+	void setInitialRotation(glm::vec3 objRot);
+	void setInitialScale(glm::vec3 objScale);
+
+
 
 	//Initialization Process
-	void loadObj();
-	void loadTexture();
-	void loadBuffer();
+	virtual void loadObj();
+	virtual void loadTexture();
+	virtual void loadBuffer();
 	//void loadShaders();
 
 
@@ -64,9 +68,12 @@ public:
 	//EdgeCase Process
 	/*void loadSkyboxtexture();*/
 
+//Pre-Setup Properties
+
 
 //Process
 	//Switch Function
+	void update();
 	void draw();
 
 	//Removing Buffer after program ends
@@ -99,13 +106,18 @@ protected:
 
 	//Buffer
 	GLuint VAO, VBO;
+
 	
-private:
+	
+protected:
 	//Obj Properties
-	glm::vec3 position = glm::vec3(0);
+	glm::vec3 objPosition = glm::vec3(0.0f);
+	glm::vec3 objScale = glm::vec3(1.0f);
+	glm::vec3 objRotation = glm::vec3(0.f);
 
 	//Animation
 	GLuint currTime;
+	float lastTime = 0;
 	float deltaTime = 0;
 
 	

@@ -5,6 +5,9 @@
 #include <fstream>
 #include <sstream>
 
+
+
+
 #include <vector>
 
 
@@ -86,11 +89,11 @@ void Shader::viewUpdate(glm::mat4 viewMatrix)
         glm::value_ptr(viewMatrix));
 }
 
-void Shader::textureUpdate(GLuint texture)
+void Shader::textureUpdate(GLuint texture, string varName, int layer)
 {
-    GLuint tex0Loc = glGetUniformLocation(shaderProgram, "tex0");
-    glUniform1i(tex0Loc, 0);
+    GLuint tex0Loc = glGetUniformLocation(shaderProgram, varName.c_str());  
     glBindTexture(GL_TEXTURE_2D, texture);
+    glUniform1i(tex0Loc, layer);
 }
 
 void Shader::LightUpdate(Light *refLight)

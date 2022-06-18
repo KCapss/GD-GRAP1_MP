@@ -162,6 +162,12 @@ void Skybox::loadBuffer()
 
 }
 
+void Skybox::update()
+{
+    this->perspCam->updateCamera();
+    this->orthoCam->updateCamera();
+}
+
 void Skybox::draw()
 {
     glDepthMask(GL_FALSE);

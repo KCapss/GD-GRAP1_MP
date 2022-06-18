@@ -31,6 +31,7 @@ protected:
 	glm::vec3 Center;
 
 	glm::mat4 viewMatrix;
+	glm::vec3 direction = glm::vec3(0, 0, -1.f);
 
 };
 

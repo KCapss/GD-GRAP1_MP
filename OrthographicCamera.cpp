@@ -8,7 +8,7 @@ OrthographicCamera::OrthographicCamera()
 		-15.0f,  //bottomMost
 		15.0f,  //topMost 
 		0.0f,  //Z-Near
-		200.0f   //Z-Far = can be adjusted 
+		400.0f   //Z-Far = can be adjusted 
 	);
 
 	this->cameraPos = glm::vec3(15.0f, 15.0f, 3.0f);

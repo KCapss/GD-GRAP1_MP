@@ -7,11 +7,11 @@ using namespace std;
 Light::Light(glm::vec3 objPos)
 {
     //Attributes
-    this->lightPos = glm::vec3(-10, 0, 0);
+    this->lightPos = glm::vec3(10, 0, -10);
     this->lightColor = glm::vec3(0.9f, 0.9f, 0.9f);
     this->greyLight = glm::vec3(0.4f, 0.4f, 0.4f);
 
-    this->ambientStr = 0.2f;
+    this->ambientStr = 0.3f;
     this->ambientColor = lightColor; // can be customizable
 
     this->specStr = 0.5f;

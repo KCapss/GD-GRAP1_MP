@@ -6,7 +6,6 @@ Space::Space(int length, int width)
 {
 	ObjectTextureManager::getInstance()->loadAll();
 
-
     lightSrc = new Light(glm::vec3(-10.0f, 0, 0));
     mainCam = new PerspectiveCamera();
     alterCam = new OrthographicCamera();
@@ -45,8 +44,8 @@ void Space::initializeObj()
 {
     //Instantiate all obj
     skybox = new Skybox("skybox");
-    model = new Model("ship", WithTexture, this->window);
-    player = new Player("sword", this->window);
+    model = new Model("sword", WithTexture, this->window);
+    player = new Player("ship", this->window);
    
 
     //Retrieve their source
@@ -55,14 +54,22 @@ void Space::initializeObj()
     player->retrieveSource(lightSrc, mainCam, alterCam);
    
 
-    //Set their position
-    model->setInitialPos(glm::vec3(0.5f, 0, 0));
+    //Set their position or Rotation
+    player->setInitialPos(glm::vec3(0.5f, 0, 100.0f));
+    player->setInitialRotation(glm::vec3(180.0f, 0, 0));
+    player->setInitialScale(glm::vec3(2.5f));
+
+    player->recomputeTransform();
+    
 
 }
 
 void Space::update()
 {
+    skybox->update();
     player->update();
+    model->update();   
+
 }
 
 void Space::draw()

@@ -18,13 +18,11 @@ Model::Model(std::string name, ObjectType objType, GLFWwindow* currWindow)
 	this->objType = objType;
     this->window = currWindow;
     
-
-    
     shader = new Shader(this->name);
     //perspCam = new PerspectiveCamera();
     
 
-    if (this->objType != SkyboxObj) {
+    if (this->objType != SkyboxObj && this->objType != TextureAndNormals) {
         loadObj();
         if (this->objType != NoTexture) {
             loadTexture();
@@ -43,7 +41,17 @@ void Model::retrieveSource(Light* light, PerspectiveCamera* perspCam, Orthograph
 
 void Model::setInitialPos(glm::vec3 pos)
 {
-    this->position = pos;
+    this->objPosition = pos;
+}
+
+void Model::setInitialRotation(glm::vec3 objRot)
+{
+    this->objRotation = objRot;
+}
+
+void Model::setInitialScale(glm::vec3 objScale)
+{
+    this->objScale = objScale;
 }
 
 
@@ -261,25 +269,36 @@ glm::mat4 Model::retrieveCamProj()
     }
 }
 
+void Model::update()
+{
+    this->perspCam->updateCamera();
+    this->orthoCam->updateCamera();
+}
+
 void Model::draw()
 {
+    
+    float time = glfwGetTime();
     //Apply Linear Transformation (Default)
     glm::mat4 identity = glm::mat4(1.0f);
-    glm::mat4 transform = glm::translate(identity, this->position);
-    transform = glm::scale(transform, glm::vec3(.25f, .25f, .25f)); //default scaling
-    //transform = glm::scale(transform, glm::vec3(2.25f, 2.25f, 2.25f)); //default other obj
+    glm::mat4 transform = glm::translate(identity, this->objPosition);
 
+    transform = glm::scale(transform, objScale);
+
+    transform = glm::rotate(transform, glm::radians(objRotation.x), glm::vec3(0, 1, 0));
+    transform = glm::rotate(transform, glm::radians(objRotation.y), glm::vec3(1, 0, 0));
+    transform = glm::rotate(transform, glm::radians(objRotation.z), glm::vec3(0, 0, 1));
+    
 
     glUseProgram(shader->getShaderProg());
-
-    
     shader->transformUpdate(transform);
 
     shader->projectionUpdate(perspCam->getProjection());
     shader->viewUpdate(perspCam->getViewMatrix());
 
     if (objType == WithTexture) {
-        shader->textureUpdate(texture);
+        glActiveTexture(GL_TEXTURE0);
+        shader->textureUpdate(texture, "tex0", 0);
         shader->LightUpdate(light);
         shader->cameraUpdatePos(perspCam->getCameraPos());
     }
