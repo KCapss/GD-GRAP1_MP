@@ -29,6 +29,9 @@ public:
 	float getSpecStr();
 	float getSpecPhong();
 
+	//Setter
+	void setLightPos(glm::vec3 newLightPos);
+
 	//LightSwitch
 	enum LightState {
 		Inactive = 0,

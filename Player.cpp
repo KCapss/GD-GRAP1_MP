@@ -15,6 +15,7 @@ Player::Player(std::string name, GLFWwindow *window): Model(name, ObjectType::Te
 
     currTime = glfwGetTime();
     lastTime = currTime;
+    SwitchManager::getInstance()->initialize();
 }
 
 void Player::recomputeTransform()
@@ -41,6 +42,9 @@ void Player::cameraSwitch()
 
 		else {
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            orthoCam->camPanningReset();
+            //orthoCam->updatePosition(glm::vec3(this->shipTransform * glm::vec4(0,0,0,1)));
+            orthoCam->updatePosition(glm::vec3(0, 0, 1));
 		}
 
 		SwitchManager::getInstance()->updateCurrCam(currCam);
@@ -51,8 +55,13 @@ void Player::cameraSwitch()
 
 void Player::lightSwitch()
 {
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+    float tick = 0.7f;
+    float timer = glfwGetTime();
+
+
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS && tick < timer) {
 		SwitchManager::getInstance()->changeLightSource();
+        glfwSetTime(0.0f);
 	}
 }
 
@@ -383,43 +392,23 @@ void Player::loadBuffer()
 
 }
 
+void Player::updateLightForward()
+{
+    glm::vec3 origShipPos = this->shipTransform * glm::vec4(0, 0, 0, 1);
+
+    glm::mat4 shipForwardMat = glm::translate(this->shipTransform, glm::vec3(0, 0, 1));
+    glm::vec3 shipForwardPos = shipForwardMat * glm::vec4(0, 0, 0, 1);
+
+    glm::vec3 lightForwardPos = glm::normalize(shipForwardPos - origShipPos);
+
+    light->setLightPos(lightForwardPos);
+    
+    
+}
+
 void Player::playerMovement()
 {
-    currTime = glfwGetTime();
-    deltaTime = currTime - lastTime;
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-       
-        this->shipTransform = glm::translate(shipTransform, glm::vec3(0, 0, 1) * -SHIP_FORWARD_SPEED);
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        this->shipTransform = glm::translate(shipTransform, glm::vec3(0, 0, 1) * SHIP_FORWARD_SPEED);
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        //cout << deltaTime * SHIP_FORWARD_SPEED << endl;
-        this->shipTransform = glm::rotate(shipTransform, glm::radians(SHIP_ROTATION_SPEED), glm::vec3(0, 1, 0));
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        this->shipTransform = glm::rotate(shipTransform, glm::radians(-SHIP_ROTATION_SPEED), glm::vec3(0, 1, 0));
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-    {
-        this->shipTransform = glm::rotate(shipTransform, glm::radians(SHIP_ROTATION_SPEED), glm::vec3(1, 0, 0));
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    {
-        this->shipTransform = glm::rotate(shipTransform, glm::radians(-SHIP_ROTATION_SPEED), glm::vec3(1, 0, 0));
-    }
-
-    lastTime = currTime;
+    //Insert your solution here
     
 }
 
@@ -428,14 +417,36 @@ void Player::updateCamera()
 	cameraSwitch();
 	if (currCam == Perspective) {
         perspCam->RotateCam(this->window, this->shipTransform);
+        perspCam->newCamPos(this->shipTransform);
 	}
 
-    perspCam->newCamPos(this->shipTransform);
+    else if (currCam == Orthographic) {
+        //orthoCam->camPanning(this->window, glm::vec3(this->shipTransform * glm::vec4(0, 0, 0, 1)));
+        orthoCam->camPanning(this->window, glm::vec3(0, 0, 1));
+    }
+    
+}
+
+void Player::updateLight()
+{
+    lightSwitch();
+    if (SwitchManager::getInstance()->isShipLightActive()) {
+        this->updateLightForward();
+    }
+
+    else {
+        //cout << "false" << endl;
+    }
+
 }
 
 void Player::update()
 {
-    playerMovement();
+    if (currCam == Perspective) {
+        updateLight();
+        playerMovement();
+    }
+   
 	updateCamera();
 
 }
@@ -443,7 +454,7 @@ void Player::update()
 void Player::draw()
 {
     float time = glfwGetTime();
-    //Apply Linear Transformation (Default)
+
     
 
     //shipTransform = glm::rotate(shipTransform, glm::radians(objRotation.x), glm::vec3(0, 1, 0));
@@ -451,8 +462,8 @@ void Player::draw()
     glUseProgram(shader->getShaderProg());
     shader->transformUpdate(this->shipTransform);
 
-    shader->projectionUpdate(perspCam->getProjection());
-    shader->viewUpdate(perspCam->getViewMatrix());
+    shader->projectionUpdate(retrieveCamProj());
+    shader->viewUpdate(retrieveCamMat());
     
     glActiveTexture(GL_TEXTURE0);
     shader->textureUpdate(texture, "tex0", 0);

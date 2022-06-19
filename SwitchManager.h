@@ -15,6 +15,8 @@ public:
 	void updateCurrCam(ActiveCam prevCam);
 	ActiveCam retrieveCurrCam();
 
+	void initialize();
+
 
 
 

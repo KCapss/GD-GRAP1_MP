@@ -68,8 +68,8 @@ public:
 	//EdgeCase Process
 	/*void loadSkyboxtexture();*/
 
-//Pre-Setup Properties
-
+//Compute Properties
+	void updateLight();
 
 //Process
 	//Switch Function

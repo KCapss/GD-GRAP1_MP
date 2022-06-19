@@ -180,7 +180,7 @@ void Skybox::draw()
 
     glUseProgram(shader->getShaderProg());
     glm::mat4 sky_view = glm::mat4(1.0f);
-    sky_view = glm::mat4(glm::mat3(perspCam->getViewMatrix()));
+    sky_view = glm::mat4(glm::mat3(retrieveCamMat()));
 
     shader->viewUpdate(sky_view);
     shader->projectionUpdate(perspCam->getProjection());

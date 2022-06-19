@@ -51,11 +51,16 @@ void SwitchManager::updateCurrCam(ActiveCam prevCam)
 {
 	
 	this->currCam = prevCam;
-	std::cout << this->currCam << std::endl;
+	////std::cout << this->currCam << std::endl;
 	//std::cout << "CamSwitch" << std::endl;
 }
 
 ActiveCam SwitchManager::retrieveCurrCam()
 {
 	return this->currCam;
+}
+
+void SwitchManager::initialize()
+{
+	this->currCam = ActiveCam::Perspective;
 }

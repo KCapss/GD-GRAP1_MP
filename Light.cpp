@@ -14,8 +14,8 @@ Light::Light(glm::vec3 objPos)
     this->ambientStr = 0.3f;
     this->ambientColor = lightColor; // can be customizable
 
-    this->specStr = 0.5f;
-    this->specPhong = 32.0f;
+    this->specStr = 1.5f;
+    this->specPhong = 60.20f;
 
     //Parts
     this->speed = 200.0f;
@@ -58,6 +58,11 @@ float Light::getSpecStr()
 float Light::getSpecPhong()
 {
     return this->specPhong;
+}
+
+void Light::setLightPos(glm::vec3 newLightPos)
+{
+    this->lightPos = newLightPos;
 }
 
 

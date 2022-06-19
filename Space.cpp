@@ -55,9 +55,14 @@ void Space::initializeObj()
    
 
     //Set their position or Rotation
-    player->setInitialPos(glm::vec3(0.5f, 0, 100.0f));
+    model->setInitialPos(glm::vec3(2.0f, 0, 4.0f));
+    model->setInitialRotation(glm::vec3(12, 60.0f, 0));
+    model->setInitialScale(glm::vec3(0.5));
+
+
+    player->setInitialPos(glm::vec3(0.5f, 0, 50.0f));
     player->setInitialRotation(glm::vec3(180.0f, 0, 0));
-    player->setInitialScale(glm::vec3(2.5f));
+    player->setInitialScale(glm::vec3(30.5f));
 
     player->recomputeTransform();
     
@@ -66,9 +71,14 @@ void Space::initializeObj()
 
 void Space::update()
 {
+
     skybox->update();
+    
     player->update();
-    model->update();   
+    model->update();
+
+    //special Case
+    model->updateLight();
 
 }
 

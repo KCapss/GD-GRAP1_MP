@@ -16,15 +16,18 @@ public:
     void cameraSwitch();
     void lightSwitch();
 
-    //Operation
+    //Pre-Operation
     void loadObj();
     void loadTexture();
     void loadBuffer();
 
+    //Computation
+    void updateLightForward();
     
     //UpdateFunction
     void playerMovement();
     void updateCamera();
+    void updateLight();
 
     void update();
     void draw(); //override base class draw()

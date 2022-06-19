@@ -1,4 +1,6 @@
 #include "Model.h"
+
+#include "SwitchManager.h"
 #include "ObjectTextureManager.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -238,34 +240,43 @@ void Model::loadBuffer()
 
 glm::vec3 Model::retrieveCamPos()
 {
-    if (currCam == ActiveCam::Perspective) {
+    if (SwitchManager::getInstance()->retrieveCurrCam() == ActiveCam::Perspective) {
         return this->perspCam->getCameraPos();
     }
 
-    else if (currCam == ActiveCam::Orthographic) {
+    else if (SwitchManager::getInstance()->retrieveCurrCam() == ActiveCam::Orthographic) {
         return this->orthoCam->getCameraPos();
     }
 }
 
 glm::mat4 Model::retrieveCamMat()
 {
-    if (currCam == ActiveCam::Perspective) {
+    if (SwitchManager::getInstance()->retrieveCurrCam() == ActiveCam::Perspective) {
         return this->perspCam->getViewMatrix();
     }
 
-    else if (currCam == ActiveCam::Orthographic) {
+    else if (SwitchManager::getInstance()->retrieveCurrCam() == ActiveCam::Orthographic) {
         return this->orthoCam->getViewMatrix();
+        cout << "OrthoCam" << endl;
     }
 }
 
 glm::mat4 Model::retrieveCamProj()
 {
-    if (currCam == ActiveCam::Perspective) {
+    if (SwitchManager::getInstance()->retrieveCurrCam() == ActiveCam::Perspective) {
         return this->perspCam->getProjection();
     }
 
-    else if (currCam == ActiveCam::Orthographic) {
-        return this->perspCam->getProjection();
+    else if (SwitchManager::getInstance()->retrieveCurrCam() == ActiveCam::Orthographic) {
+        return this->orthoCam->getProjection();
+    }
+}
+
+void Model::updateLight()
+{
+    if (!SwitchManager::getInstance()->isShipLightActive() && objType != ObjectType::TextureAndNormals)
+    {
+        light->setLightPos(this->objPosition);
     }
 }
 
@@ -293,8 +304,8 @@ void Model::draw()
     glUseProgram(shader->getShaderProg());
     shader->transformUpdate(transform);
 
-    shader->projectionUpdate(perspCam->getProjection());
-    shader->viewUpdate(perspCam->getViewMatrix());
+    shader->projectionUpdate(retrieveCamProj());
+    shader->viewUpdate(retrieveCamMat());
 
     if (objType == WithTexture) {
         glActiveTexture(GL_TEXTURE0);

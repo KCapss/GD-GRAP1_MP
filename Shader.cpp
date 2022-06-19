@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-
+#include "SwitchManager.h"
 
 
 #include <vector>
@@ -98,6 +98,11 @@ void Shader::textureUpdate(GLuint texture, string varName, int layer)
 
 void Shader::LightUpdate(Light *refLight)
 {
+    float activeLight = SwitchManager::getInstance()->isShipLightActive();
+    //cout << activeLight << endl;
+    GLuint lightTypeAddress = glGetUniformLocation(shaderProgram, "lightType");
+    glUniform1f(lightTypeAddress, activeLight);
+
     GLuint lightPosAddress = glGetUniformLocation(shaderProgram, "lightPos");
     glUniform3fv(lightPosAddress, 1, glm::value_ptr(refLight->getLightPos()));
 
