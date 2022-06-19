@@ -39,10 +39,25 @@ void OrthographicCamera::updatePosition(glm::vec3 shipPos)
 
 void OrthographicCamera::camPanning(GLFWwindow* window, glm::vec3 shipPos)
 {
-	//Insert Solution Here
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		this->zOffset -= PANNING_SPEED;
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		this->zOffset += PANNING_SPEED;
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		this->xOffset += PANNING_SPEED;
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		this->xOffset -= PANNING_SPEED;
+	}
+	this->cameraPos = shipPos + glm::vec3(xOffset, distance,zOffset);
 
-
-
+	this->Center = shipPos + glm::vec3(xOffset, 0, zOffset);
 	//Any after change for the cam and center should these, for updatiing view matrix;
 	updateCamera();
 }

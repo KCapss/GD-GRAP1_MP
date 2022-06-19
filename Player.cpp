@@ -408,7 +408,30 @@ void Player::updateLightForward()
 
 void Player::playerMovement()
 {
-    //Insert your solution here
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        shipTransform = glm::translate(shipTransform, glm::vec3(0, 0, -0.5f));
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        shipTransform = glm::translate(shipTransform, glm::vec3(0, 0, 0.5f));
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, 1.f, 0));    
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, -1.f, 0));  
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(1.0f, 0, 0));  
+    }
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(-1.0f, 0, 0));  
+    }
     
 }
 
