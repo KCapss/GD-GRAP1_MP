@@ -18,11 +18,8 @@ public:
 	glm::vec3 getCameraPos();
 	glm::mat4 getViewMatrix();
 
-	//Setter Function
+	
 
-
-	//update function
-	void newCamPosition(glm::mat4 shipPosTransformMat, glm::vec3 rotateVector, float distance);
 
 protected:
 	//Components for viewMatrix
@@ -31,7 +28,9 @@ protected:
 	glm::vec3 Center;
 
 	glm::mat4 viewMatrix;
-	glm::vec3 direction = glm::vec3(0, 0, -1.f);
+	
+	//camera Going Forward
+	glm::vec3 direction = glm::vec3(0, 0, -1.f); //default
 
 };
 

@@ -10,11 +10,28 @@ using namespace std;
 
 
 /*
-Made by: Kevin Carl Capalar
-23/05/2022 GDGRAP1
+Made by: Kevin Carl Capalar && Carlos Arquillos
+20/06/2022 GDGRAP1
 
-Reference: Plant Pot
-https://free3d.com/3d-model/indoor-pot-plant-77983.html 
+Reference for the obj and Texture:
+1) Skybox =
+
+2) Player =
+
+
+//Debri List
+3)
+
+4)
+
+5)
+
+6)
+
+7)
+
+
+Note from Tester please do go too deep or the orthocam will not be able to scan
 */
 
 int main(void)
@@ -31,7 +48,6 @@ int main(void)
     {
        
         //Update Data Function Call
-        //Some function
         space->update();
 
         //Draw Function Call

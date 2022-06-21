@@ -6,6 +6,8 @@
 #include "tiny_obj_loader.h"
 #include "stb_image.h"
 
+
+//Constructor
 Player::Player(std::string name, GLFWwindow *window): Model(name, ObjectType::TextureAndNormals, window)
 {
 	//Majority of the process will be on the base on the base class for now
@@ -18,6 +20,7 @@ Player::Player(std::string name, GLFWwindow *window): Model(name, ObjectType::Te
     SwitchManager::getInstance()->initialize();
 }
 
+/*This function recompute the transform Matrix*/
 void Player::recomputeTransform()
 {
     this->shipTransform = glm::translate(this->shipTransform, objPosition);
@@ -28,6 +31,8 @@ void Player::recomputeTransform()
     shipTransform = glm::rotate(shipTransform, glm::radians(objRotation.z), glm::vec3(0, 0, 1));
 }
 
+
+/*This function camera state and switches accordingly*/
 void Player::cameraSwitch()
 {
     float ticks = 2.5f;
@@ -53,6 +58,7 @@ void Player::cameraSwitch()
 
 }
 
+/*This function Light state and switches accordingly*/
 void Player::lightSwitch()
 {
     float tick = 0.7f;
@@ -65,6 +71,8 @@ void Player::lightSwitch()
 	}
 }
 
+
+//Object Initialize
 void Player::loadObj()
 {
     std::string path = ObjectTextureManager::getInstance()->getObjPath(this->name);
@@ -229,6 +237,7 @@ void Player::loadObj()
     this->shader->initialize();
 }
 
+//Texture Initialize and with Normal
 void Player::loadTexture()
 {
     int img_width, img_height, colorChannel;
@@ -308,6 +317,7 @@ void Player::loadTexture()
     stbi_image_free(this->norm_bytes);
 }
 
+//Buffer Inititalize
 void Player::loadBuffer()
 {
     //Buffer Setup
@@ -392,6 +402,9 @@ void Player::loadBuffer()
 
 }
 
+
+/*This Function compute the vector of the light where 
+it is supposed to be shining upon*/
 void Player::updateLightForward()
 {
     glm::vec3 origShipPos = this->shipTransform * glm::vec4(0, 0, 0, 1);
@@ -406,8 +419,11 @@ void Player::updateLightForward()
     
 }
 
+/*Player Movement Control and update*/
 void Player::playerMovement()
 {
+    currTime = glfwGetTime();
+    deltaTime = currTime - lastTime;
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         shipTransform = glm::translate(shipTransform, glm::vec3(0, 0, -0.5f));
@@ -418,23 +434,26 @@ void Player::playerMovement()
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, 1.f, 0));    
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, 1.f, 0));
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, -1.f, 0));  
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, -1.f, 0));
     }
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(1.0f, 0, 0));  
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(1.0f, 0, 0));
     }
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(-1.0f, 0, 0));  
+        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(-1.0f, 0, 0));
     }
+
+    lastTime = currTime;
     
 }
 
+// Handle Camera State function
 void Player::updateCamera()
 {
 	cameraSwitch();
@@ -450,6 +469,8 @@ void Player::updateCamera()
     
 }
 
+
+// Handle Light State function
 void Player::updateLight()
 {
     lightSwitch();
@@ -458,11 +479,12 @@ void Player::updateLight()
     }
 
     else {
-        //cout << "false" << endl;
+       //No 
     }
 
 }
 
+//Update Function
 void Player::update()
 {
     if (currCam == Perspective) {
@@ -474,14 +496,12 @@ void Player::update()
 
 }
 
+//Draw Function
 void Player::draw()
 {
     float time = glfwGetTime();
 
-    
-
-    //shipTransform = glm::rotate(shipTransform, glm::radians(objRotation.x), glm::vec3(0, 1, 0));
-
+    //Shader use
     glUseProgram(shader->getShaderProg());
     shader->transformUpdate(this->shipTransform);
 
@@ -498,6 +518,9 @@ void Player::draw()
 
     glUseProgram(shader->getShaderProg());
 
+    //Draw of Obj
     glBindVertexArray(VAO); // Render on the active
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 14);
+   
+
 }

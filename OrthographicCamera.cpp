@@ -3,6 +3,7 @@
 
 using namespace std;
 
+//Constructor = creating projection comp and set defined var.
 OrthographicCamera::OrthographicCamera()
 {
 	//Pre-Defined Settings == Defined by the xand y axis of the map
@@ -26,6 +27,7 @@ glm::mat4 OrthographicCamera::getProjection()
 	return this->projection;
 }
 
+//update the pos of the based on the ship pos
 void OrthographicCamera::updatePosition(glm::vec3 shipPos)
 {
 
@@ -37,31 +39,43 @@ void OrthographicCamera::updatePosition(glm::vec3 shipPos)
 	updateCamera();
 }
 
+//retrieve the position of the ship and panning on top with offset
 void OrthographicCamera::camPanning(GLFWwindow* window, glm::vec3 shipPos)
 {
+	//Insert Solution Here
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		this->zOffset -= PANNING_SPEED;
-	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 	{
 		this->zOffset += PANNING_SPEED;
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		this->zOffset += -PANNING_SPEED;
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		//cout << xOffset << endl;
+		this->xOffset += -PANNING_SPEED;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
 		this->xOffset += PANNING_SPEED;
 	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		this->xOffset -= PANNING_SPEED;
-	}
-	this->cameraPos = shipPos + glm::vec3(xOffset, distance,zOffset);
 
-	this->Center = shipPos + glm::vec3(xOffset, 0, zOffset);
+	//Pos-update
+	this->cameraPos = glm::vec3(shipPos.x + xOffset, shipPos.y + distance, shipPos.z + zOffset);
+	//this->cameraPos = glm::vec3(shipPos.x, shipPos.y + distance, shipPos.z);
+	this->Center = glm::vec3(shipPos.x + xOffset, shipPos.y, shipPos.z + zOffset + 0.01f);
+
+
+
 	//Any after change for the cam and center should these, for updatiing view matrix;
 	updateCamera();
 }
 
+//Reset the offset
 void OrthographicCamera::camPanningReset()
 {
 	this->xOffset = 0;

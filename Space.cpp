@@ -2,6 +2,7 @@
 #include "ObjectTextureManager.h"
 
 
+//Constructor with defined dimension
 Space::Space(int length, int width)
 {
 	ObjectTextureManager::getInstance()->loadAll();
@@ -16,6 +17,7 @@ Space::Space(int length, int width)
     
 }
 
+//Create the window and set the defined dimension along with its view range
 bool Space::initializeWindow()
 {
     //Init Lib
@@ -40,68 +42,174 @@ bool Space::initializeWindow()
     return false;
 }
 
+/*Initialize all obj
+retrieve their source AND 
+customize their position*/
 void Space::initializeObj()
 {
     //Instantiate all obj
     skybox = new Skybox("skybox");
-    model = new Model("sword", WithTexture, this->window);
     player = new Player("ship", this->window);
+    planet = new Model("planet", NoTexture, this->window);
+    debriInitialize();
    
 
     //Retrieve their source
     skybox->retrieveSource(lightSrc, mainCam, alterCam);
-    model->retrieveSource(lightSrc, mainCam, alterCam);
     player->retrieveSource(lightSrc, mainCam, alterCam);
+    planet->retrieveSource(lightSrc, mainCam, alterCam);
+    debriRetrieveSource();
    
 
-    //Set their position or Rotation
-    model->setInitialPos(glm::vec3(2.0f, 0, 4.0f));
-    model->setInitialRotation(glm::vec3(12, 60.0f, 0));
-    model->setInitialScale(glm::vec3(0.5));
-
-
+    //Player Setup
     player->setInitialPos(glm::vec3(0.5f, 0, 50.0f));
     player->setInitialRotation(glm::vec3(180.0f, 0, 0));
     player->setInitialScale(glm::vec3(30.5f));
 
     player->recomputeTransform();
+
+    //planet Setup
+    planet->setInitialPos(glm::vec3(0.5f, 0, 330.0f));
+    planet->setInitialRotation(glm::vec3(0, 0, 0));
+    planet->setInitialScale(glm::vec3(10.0f));
+
+    debriSetup();
     
 
 }
 
+void Space::debriInitialize()
+{
+    
+   
+    tower = new Model("tower", WithTexture, this->window);
+    spaceRock = new Model("spaceRock", WithTexture, this->window);
+    statue = new Model("statue", WithTexture, this->window);
+    statue2 = new Model("statue2", WithTexture, this->window);
+    generators = new Model("generator", WithTexture, this->window);
+
+}
+
+void Space::debriRetrieveSource()
+{
+    tower->retrieveSource(lightSrc, mainCam, alterCam);
+    generators->retrieveSource(lightSrc, mainCam, alterCam);
+    spaceRock->retrieveSource(lightSrc, mainCam, alterCam);
+    statue->retrieveSource(lightSrc, mainCam, alterCam);
+    statue2->retrieveSource(lightSrc, mainCam, alterCam);
+}
+
+void Space::debriSetup()
+{
+    //Sample Setup
+
+    
+
+    tower->setInitialPos(glm::vec3(3000.f, 0, 50.0f));
+    tower->setInitialRotation(glm::vec3(0, 0, 0));
+    tower->setInitialScale(glm::vec3(0.01f));
+
+    statue->setInitialPos(glm::vec3(30.f, 0, -1150.0f));
+    statue->setInitialRotation(glm::vec3(0, 0, 0));
+    statue->setInitialScale(glm::vec3(1.0f));
+
+
+    statue2->setInitialPos(glm::vec3(30.f, 0, -500.0f));
+    statue2->setInitialRotation(glm::vec3(0, 0, 0));
+    statue2->setInitialScale(glm::vec3(1.0f));
+
+    generators->setInitialPos(glm::vec3(-300.f, 0, -50.0f));
+    generators->setInitialRotation(glm::vec3(0, 0, 0));
+    generators->setInitialScale(glm::vec3(5.f));
+
+    spaceRock->setInitialPos(glm::vec3(30000.f, 0, -50.0f));
+    spaceRock->setInitialRotation(glm::vec3(0, 0, 0));
+    spaceRock->setInitialScale(glm::vec3(1.f));
+
+
+}
+
+void Space::drawDebri()
+{
+   
+    tower->draw();
+    statue2->draw();   
+    statue->draw();
+    spaceRock->draw();
+    generators->draw();
+
+
+
+
+}
+
+void Space::deleteDebri()
+{
+    tower->deAllocate();
+    generators->deAllocate();
+    spaceRock->deAllocate();
+    statue->deAllocate();
+    statue2->deAllocate();
+}
+
+//Update all active object
 void Space::update()
 {
-
+    //Skybox
     skybox->update();
-    
-    player->update();
-    model->update();
 
-    //special Case
-    model->updateLight();
+    //player
+    player->update();
+
+    //Debris
+    planet->update();
+
+    //special Case = reference object acting as point light
+    planet->updateLight();
 
 }
 
+
+//Draw Function
 void Space::draw()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    //Skybox
     skybox->draw();
 
-    model->draw();
+    //Player
     player->draw();
 
+    //Planet
+    planet->draw();
+
+    drawDebri();
 
     /* Swap front and back buffers */
     glfwSwapBuffers(this->window);
+
+    
+
+    
 
 
     /* Poll for and process events */
     glfwPollEvents();
 }
 
+//Delete all buffer
 void Space::deleteBuffer()
 {
-    model->deAllocate();
+    //Skybox
+    skybox->deAllocate();
+
+    //Player
+    player->deAllocate();
+    planet->deAllocate();
+
+
+    //All Debris
+    deleteDebri();
     glfwTerminate();
 }

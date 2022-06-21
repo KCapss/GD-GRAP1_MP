@@ -32,13 +32,26 @@ public:
 	void update();
 	void draw();
 	void deleteBuffer();
+
+	//Debri Handler
+	void debriInitialize();
+	void debriRetrieveSource();
+	void debriSetup();
+	void drawDebri();
+	void deleteDebri();
 	
 
 private:
 	//Interface:
 	Skybox* skybox;
 	//Model for the player;
-	Model* model; //change into vector later Note. An array of Debris
+	Model* planet;
+
+	Model* tower;
+	Model* generators;
+	Model* spaceRock;
+	Model* statue;
+	Model* statue2;
 	Player* player;
 
 	//External Src

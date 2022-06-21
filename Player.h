@@ -8,8 +8,6 @@ class Player :
 public:
     //Constructor
     Player(std::string name, GLFWwindow *window);
-
-    //Presetup
     void recomputeTransform();
 
     //switch
@@ -34,18 +32,15 @@ public:
 
 private:
     const float SHIP_FORWARD_SPEED = 0.15f;
-    float SHIP_ROTATION_SPEED = 0.1f;
+    const float SHIP_ROTATION_SPEED = 0.3f;
     float camDistance;
     glm::mat4 shipTransform = glm::mat4(1.0f);
 
-    
 
     //Special Parameters
     unsigned char* norm_bytes;
     GLuint normTexture = 0;
 
-
-    //Note: Create a singleton for inputManager
 
 };
 

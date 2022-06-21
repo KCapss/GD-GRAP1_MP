@@ -9,11 +9,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+//Empty Base Constructor
 Model::Model()
 {
-    //Default option as base class
+    //option as base class
 }
 
+//Standard Base Constructor
 Model::Model(std::string name, ObjectType objType, GLFWwindow* currWindow)
 {
 	this->name = name;
@@ -21,8 +23,6 @@ Model::Model(std::string name, ObjectType objType, GLFWwindow* currWindow)
     this->window = currWindow;
     
     shader = new Shader(this->name);
-    //perspCam = new PerspectiveCamera();
-    
 
     if (this->objType != SkyboxObj && this->objType != TextureAndNormals) {
         loadObj();
@@ -34,12 +34,15 @@ Model::Model(std::string name, ObjectType objType, GLFWwindow* currWindow)
 
 }
 
+/*This function use for retrieving source that will
+be useful as extended class*/
 void Model::retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam)
 {
     this->light = light;
     this->perspCam = perspCam;
     this->orthoCam = orthoCam;
 }
+
 
 void Model::setInitialPos(glm::vec3 pos)
 {
@@ -56,7 +59,7 @@ void Model::setInitialScale(glm::vec3 objScale)
     this->objScale = objScale;
 }
 
-
+//Object Initialize without normals
 void Model::loadObj()
 {
     //Iniitalize obj points
@@ -134,7 +137,7 @@ void Model::loadObj()
 }
 
 
-//Might Change due to not teaching the normals yet
+//Texture without normals initialize;
 void Model::loadTexture()
 {
     //Initialize for Texture (JPG)
@@ -173,6 +176,7 @@ void Model::loadTexture()
     glEnable(GL_DEPTH_TEST);
 }
 
+//Buffer Initialize
 void Model::loadBuffer()
 {
     //Initialize the new buffer
@@ -238,6 +242,8 @@ void Model::loadBuffer()
 
 }
 
+
+//Getter Function
 glm::vec3 Model::retrieveCamPos()
 {
     if (SwitchManager::getInstance()->retrieveCurrCam() == ActiveCam::Perspective) {
@@ -272,6 +278,8 @@ glm::mat4 Model::retrieveCamProj()
     }
 }
 
+
+/*This function will reference the one who called as reference of their point light*/
 void Model::updateLight()
 {
     if (!SwitchManager::getInstance()->isShipLightActive() && objType != ObjectType::TextureAndNormals)
@@ -280,15 +288,17 @@ void Model::updateLight()
     }
 }
 
+//update function
 void Model::update()
 {
     this->perspCam->updateCamera();
     this->orthoCam->updateCamera();
 }
 
+//
 void Model::draw()
 {
-    
+    glBindVertexArray(0);
     float time = glfwGetTime();
     //Apply Linear Transformation (Default)
     glm::mat4 identity = glm::mat4(1.0f);
@@ -299,13 +309,20 @@ void Model::draw()
     transform = glm::rotate(transform, glm::radians(objRotation.x), glm::vec3(0, 1, 0));
     transform = glm::rotate(transform, glm::radians(objRotation.y), glm::vec3(1, 0, 0));
     transform = glm::rotate(transform, glm::radians(objRotation.z), glm::vec3(0, 0, 1));
+
+    
     
 
     glUseProgram(shader->getShaderProg());
+    glBindVertexArray(VAO); // Render on the active
     shader->transformUpdate(transform);
 
     shader->projectionUpdate(retrieveCamProj());
     shader->viewUpdate(retrieveCamMat());
+
+    if (objType == NoTexture) {
+        //shader->LightUpdate(light);
+    }
 
     if (objType == WithTexture) {
         glActiveTexture(GL_TEXTURE0);
@@ -318,6 +335,7 @@ void Model::draw()
 
     glBindVertexArray(VAO); // Render on the active
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 8);
+   
 
     //Retrieve Delta Time Later
 }

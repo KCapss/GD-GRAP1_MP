@@ -15,7 +15,7 @@
 //Class include
 #include "Shader.h"
 #include "Light.h"
-#include "PerspectiveCamera.h" // Replace Later with specific camera type
+#include "PerspectiveCamera.h" 
 #include "OrthographicCamera.h"
 
 enum ObjectType {
@@ -26,12 +26,6 @@ enum ObjectType {
 };
 
 enum ActiveCam { Perspective = 1, Orthographic = 2 };
-
-//Optianal Feature enum for Rotating Debris
-
-
-
-//Create A single structure to access all texture, objfile and/or skybox
 
 
 //This is class for general purpose in using for planet and debris

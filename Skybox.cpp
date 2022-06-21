@@ -14,9 +14,9 @@ Skybox::Skybox(std::string name)
     shader = new Shader(this->name);
 
     shader->initialize();
-    //this->loadShader();
+   
     loadValues();
-    //CombineProcess();
+   
     this->loadBuffer();
     this->loadTexture();
     
@@ -70,12 +70,12 @@ void Skybox::loadValues()
 
     //Manually Edit the location or retrieve the file as vector of string
     std::string faceSkybox[]{
-        "3D/Skybox/rainbow_rt.png",
-        "3D/Skybox/rainbow_lf.png",
-        "3D/Skybox/rainbow_up.png",
-        "3D/Skybox/rainbow_dn.png",
-        "3D/Skybox/rainbow_ft.png",
-        "3D/Skybox/rainbow_bk.png"
+        "3D/Skybox/right.png",
+        "3D/Skybox/left.png",
+        "3D/Skybox/up.png",
+        "3D/Skybox/down.png",
+        "3D/Skybox/front.png",
+        "3D/Skybox/back.png"
     };
 
     for (int i = 0; i < 6; i++) {
@@ -106,11 +106,11 @@ void Skybox::loadTexture()
             glTexImage2D(
                 GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, //R, L, T, B, F, B
                 0,
-                GL_RGB,
+                GL_RGBA,
                 w,
                 h,
                 0,
-                GL_RGB,
+                GL_RGBA,
                 GL_UNSIGNED_BYTE,
                 data
             );
