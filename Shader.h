@@ -42,7 +42,6 @@ public:
 //Fragment Shader
 	void textureUpdate(GLuint texture, string varName, int layer);
 	void LightUpdate(Light *refLight); //Retrieve Light Class;
-
 	void cameraUpdatePos(glm::vec3 cameraPos);
 
 //Normal Map

@@ -9,16 +9,16 @@ OrthographicCamera::OrthographicCamera()
 	//Pre-Defined Settings == Defined by the xand y axis of the map
 	//The Outline would prefer to be squarish
 	this->projection = glm::ortho(
-		-1500.0f,  //LeftMost
-		1500.0f,  //RightMost
-		-1500.0f,  //bottomMost
-		1500.0f,  //topMost 
+		-1000.0f,  //LeftMost
+		1000.0f,  //RightMost
+		-1000.0f,  //bottomMost
+		1000.0f,  //topMost 
 		0.01f,  //Z-Near
-		1400.0f   //Z-Far = can be adjusted 
+		140000.0f   //Z-Far = can be adjusted 
 	);
 
 	this->cameraPos = glm::vec3(15.0f, 15.0f, 3.0f);
-	this->distance = 400.0f;
+	this->distance = 100000.0f;
 	updateCamera();
 }
 
@@ -56,12 +56,12 @@ void OrthographicCamera::camPanning(GLFWwindow* window, glm::vec3 shipPos)
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		//cout << xOffset << endl;
-		this->xOffset += -PANNING_SPEED;
+		this->xOffset += PANNING_SPEED;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		this->xOffset += PANNING_SPEED;
+		this->xOffset += -PANNING_SPEED;
 	}
 
 	//Pos-update

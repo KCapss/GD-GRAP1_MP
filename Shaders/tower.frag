@@ -12,6 +12,7 @@ uniform float specStr;
 uniform float specPhong;
 
 uniform float lightType;
+uniform float lumens;
 
 // unform vec3 specColor; // Optional
 
@@ -28,7 +29,7 @@ out vec4 FragColor; //Returns a Color
 void main()
 {
     vec4 pixelColor = texture(tex0, texCoord);
-   
+
     vec3 normal = normalize(normCoord);
 
     vec3 lightDir = normalize(lightPos - fragPos);
@@ -38,7 +39,16 @@ void main()
 
     //Point Light
     float lightDist = length(lightPos - fragPos);   //Get the Eucleadian Distance && "length function" part of GLSL.
-    float lightAtten = 1 / (lightDist * lightDist); //Getting Light Intensity in relation to the distance of the source and target
+    float lightAtten = 1.0f / ((lightDist * lightDist) + lightDist/3.0f + 3.0f ) ; //Getting Light Intensity in relation to the distance of the source and target
+    float amplify = lightAtten * lumens;
+    
+    if (amplify > 1.10f){
+       amplify = 1.10f;
+    }
+
+    else if (amplify < 0.01f){
+         amplify = 0.05f;
+    }
 
     float diff = max(dot(normal, lightDir), 0.0);
     vec3 diffuse = diff * lightColor;
@@ -54,7 +64,7 @@ void main()
 
    if(lightType == 0)
 	{
-		FragColor = (vec4((specColor + ambientCol + diffuse) * lightAtten , 1.0)) * pixelColor;
+		FragColor = (vec4((specColor + ambientCol + diffuse) * amplify, 1.0)) * pixelColor;
 	}
 	else if(lightType == 1)
 	{

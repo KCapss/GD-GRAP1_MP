@@ -20,10 +20,11 @@ Light::Light(glm::vec3 objPos)
     this->speed = 200.0f;
     this->distance = 10.f;
     this->lightRotation = glm::normalize(lightPos);
-  
 
-    //debug
-    this->d_lightRotation = glm::vec3(-1.0f, 0, 0);
+   
+
+    //Special Properties
+    this->lumens = 10000000.0f;
 
 }
 
@@ -59,9 +60,19 @@ float Light::getSpecPhong()
     return this->specPhong;
 }
 
+float Light::getLumens()
+{
+    return this->lumens;
+}
+
 void Light::setLightPos(glm::vec3 newLightPos)
 {
     this->lightPos = newLightPos;
+}
+
+void Light::setLumens(float lumens)
+{
+    this->lumens = lumens;
 }
 
 

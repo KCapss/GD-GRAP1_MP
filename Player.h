@@ -31,7 +31,7 @@ public:
     void draw(); //override base class draw()
 
 private:
-    const float SHIP_FORWARD_SPEED = 0.15f;
+    const float SHIP_FORWARD_SPEED = 100.f;
     const float SHIP_ROTATION_SPEED = 0.3f;
     float camDistance;
     glm::mat4 shipTransform = glm::mat4(1.0f);

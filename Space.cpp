@@ -5,16 +5,16 @@
 //Constructor with defined dimension
 Space::Space(int length, int width)
 {
-	ObjectTextureManager::getInstance()->loadAll();
+    ObjectTextureManager::getInstance()->loadAll();
 
     lightSrc = new Light(glm::vec3(-10.0f, 0, 0));
     mainCam = new PerspectiveCamera();
     alterCam = new OrthographicCamera();
 
 
-	this->lengthDim = length;
-	this->widthDim = width;
-    
+    this->lengthDim = length;
+    this->widthDim = width;
+
 }
 
 //Create the window and set the defined dimension along with its view range
@@ -43,7 +43,7 @@ bool Space::initializeWindow()
 }
 
 /*Initialize all obj
-retrieve their source AND 
+retrieve their source AND
 customize their position*/
 void Space::initializeObj()
 {
@@ -52,14 +52,14 @@ void Space::initializeObj()
     player = new Player("ship", this->window);
     planet = new Model("planet", NoTexture, this->window);
     debriInitialize();
-   
+
 
     //Retrieve their source
     skybox->retrieveSource(lightSrc, mainCam, alterCam);
     player->retrieveSource(lightSrc, mainCam, alterCam);
     planet->retrieveSource(lightSrc, mainCam, alterCam);
     debriRetrieveSource();
-   
+
 
     //Player Setup
     player->setInitialPos(glm::vec3(0.5f, 0, 50.0f));
@@ -74,14 +74,14 @@ void Space::initializeObj()
     planet->setInitialScale(glm::vec3(250.0f));
 
     debriSetup();
-    
+
 
 }
 
 void Space::debriInitialize()
 {
-    
-   
+
+
     tower = new Model("tower", WithTexture, this->window);
     spaceRock = new Model("spaceRock", WithTexture, this->window);
     statue = new Model("statue", WithTexture, this->window);
@@ -103,7 +103,7 @@ void Space::debriSetup()
 {
     //Sample Setup
 
-    
+
 
     tower->setInitialPos(glm::vec3(-300.f, -500.f, 14000.0f));
     tower->setInitialRotation(glm::vec3(0.f, 240.f, 0.f));
@@ -131,9 +131,9 @@ void Space::debriSetup()
 
 void Space::drawDebri()
 {
-   
+
     tower->draw();
-    statue2->draw();   
+    statue2->draw();
     statue->draw();
     spaceRock->draw();
     generators->draw();
@@ -189,9 +189,9 @@ void Space::draw()
     /* Swap front and back buffers */
     glfwSwapBuffers(this->window);
 
-    
 
-    
+
+
 
 
     /* Poll for and process events */

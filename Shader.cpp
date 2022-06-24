@@ -103,6 +103,9 @@ void Shader::LightUpdate(Light *refLight)
     GLuint lightTypeAddress = glGetUniformLocation(shaderProgram, "lightType");
     glUniform1f(lightTypeAddress, activeLight);
 
+    GLuint lightLumensAddress = glGetUniformLocation(shaderProgram, "lumens");
+    glUniform1f(lightLumensAddress, refLight->getLumens());
+
     GLuint lightPosAddress = glGetUniformLocation(shaderProgram, "lightPos");
     glUniform3fv(lightPosAddress, 1, glm::value_ptr(refLight->getLightPos()));
 

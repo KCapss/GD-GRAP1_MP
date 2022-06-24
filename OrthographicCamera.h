@@ -20,7 +20,7 @@ public:
 
 private:
     float distance = 0;
-    const float PANNING_SPEED = 0.3f;
+    const float PANNING_SPEED = 1.0f;
     float xOffset = 0, zOffset = 0;
 
 

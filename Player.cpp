@@ -434,19 +434,19 @@ void Player::playerMovement()
     }
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, 1.f, 0));
+        shipTransform = glm::rotate(shipTransform, glm::radians(SHIP_ROTATION_SPEED), glm::vec3(0, 1.f, 0));
     }
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(0, -1.f, 0));
+        shipTransform = glm::rotate(shipTransform, glm::radians(SHIP_ROTATION_SPEED), glm::vec3(0, -1.f, 0));
     }
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(1.0f, 0, 0));
+        shipTransform = glm::rotate(shipTransform, glm::radians(SHIP_ROTATION_SPEED), glm::vec3(1.0f, 0, 0));
     }
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
     {
-        shipTransform = glm::rotate(shipTransform, glm::radians(2.f), glm::vec3(-1.0f, 0, 0));
+        shipTransform = glm::rotate(shipTransform, glm::radians(SHIP_ROTATION_SPEED), glm::vec3(-1.0f, 0, 0));
     }
 
     lastTime = currTime;
@@ -463,8 +463,8 @@ void Player::updateCamera()
 	}
 
     else if (currCam == Orthographic) {
-        //orthoCam->camPanning(this->window, glm::vec3(this->shipTransform * glm::vec4(0, 0, 0, 1)));
-        orthoCam->camPanning(this->window, glm::vec3(0, 0, 1));
+        orthoCam->camPanning(this->window, glm::vec3(this->shipTransform * glm::vec4(0, 0, 0, 1)));
+       // orthoCam->camPanning(this->window, glm::vec3(0, 0, 1));
     }
     
 }
@@ -478,20 +478,16 @@ void Player::updateLight()
         this->updateLightForward();
     }
 
-    else {
-       //No 
-    }
-
 }
 
 //Update Function
 void Player::update()
 {
+    /*Prevent Any Movement if Orthographic was on*/
     if (currCam == Perspective) {
-        updateLight();
         playerMovement();
     }
-   
+    updateLight();
 	updateCamera();
 
 }
