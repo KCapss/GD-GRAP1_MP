@@ -71,7 +71,7 @@ void Space::initializeObj()
     //planet Setup
     planet->setInitialPos(glm::vec3(0.5f, 0, 15000.f));
     planet->setInitialRotation(glm::vec3(0, 0, 0));
-    planet->setInitialScale(glm::vec3(50.0f));
+    planet->setInitialScale(glm::vec3(250.0f));
 
     debriSetup();
     
@@ -111,20 +111,20 @@ void Space::debriSetup()
 
     statue->setInitialPos(glm::vec3(-100.f, 500, 10500.0f));
     statue->setInitialRotation(glm::vec3(0, 220.f, 0.f));
-    statue->setInitialScale(glm::vec3(0.2f));
+    statue->setInitialScale(glm::vec3(0.5f));
 
 
     statue2->setInitialPos(glm::vec3(0.5f, 0, 9000.0f));
     statue2->setInitialRotation(glm::vec3(0, -220.f, 0));
-    statue2->setInitialScale(glm::vec3(0.2f));
+    statue2->setInitialScale(glm::vec3(0.4f));
 
     generators->setInitialPos(glm::vec3(300.f, 0, 4500.0f));
     generators->setInitialRotation(glm::vec3(0, 0, 0));
-    generators->setInitialScale(glm::vec3(5.f));
+    generators->setInitialScale(glm::vec3(10.f));
 
-    spaceRock->setInitialPos(glm::vec3(-300.f, 1000.f, 14500.0f));
+    spaceRock->setInitialPos(glm::vec3(-500.f, 1200.f, 14500.0f));
     spaceRock->setInitialRotation(glm::vec3(0, 0, 0));
-    spaceRock->setInitialScale(glm::vec3(1.f));
+    spaceRock->setInitialScale(glm::vec3(0.5f));
 
 
 }
