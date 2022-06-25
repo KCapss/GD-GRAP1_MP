@@ -8,7 +8,6 @@ public:
     glm::mat4 getProjection();
 
     //UpdateFunctio
-    void perpectiveCamUpdate(GLFWwindow *window, glm::mat4 shishipPosTransformMat);
     void RotateCam(GLFWwindow *window, glm::mat4 shipPosTransformMat); //only applies on perspective
     void newCamPos(glm::mat4 shipPosTransformMat);
 
