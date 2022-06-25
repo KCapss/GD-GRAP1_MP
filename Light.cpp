@@ -3,28 +3,28 @@
 
 using namespace std;
 
-
+//Constructor with predefined value
 Light::Light(glm::vec3 objPos)
 {
     //Attributes
-    this->lightPos = glm::vec3(-10, 0, 0);
+    this->lightPos = glm::vec3(10, 0, -10); //default 
     this->lightColor = glm::vec3(0.9f, 0.9f, 0.9f);
-    this->greyLight = glm::vec3(0.4f, 0.4f, 0.4f);
 
-    this->ambientStr = 0.2f;
+    this->ambientStr = 0.3f;
     this->ambientColor = lightColor; // can be customizable
 
-    this->specStr = 0.5f;
-    this->specPhong = 32.0f;
+    this->specStr = 1.5f;
+    this->specPhong = 60.20f;
 
     //Parts
     this->speed = 200.0f;
     this->distance = 10.f;
     this->lightRotation = glm::normalize(lightPos);
-  
 
-    //debug
-    this->d_lightRotation = glm::vec3(-1.0f, 0, 0);
+   
+
+    //Special Properties
+    this->lumens = 10000000.0f;
 
 }
 
@@ -60,33 +60,20 @@ float Light::getSpecPhong()
     return this->specPhong;
 }
 
-
-
-//Rotatate along respect to the current normal position of the object from the center
-
-//Switcher Function
-void Light::lightSwitch()
+float Light::getLumens()
 {
-    if (lightState == Inactive) {
-        lightState = Active;
-
-    }
-
-    else if (lightState == Active) {
-        lightState = Inactive;
-    }
-
+    return this->lumens;
 }
 
-//Active Checker()
-glm::vec3 Light::lightCheck()
+void Light::setLightPos(glm::vec3 newLightPos)
 {
-    if (lightState == Inactive) {
-        return this->greyLight;
-
-    }
-
-    else if (lightState == Active) {
-        return this->lightColor;
-    }
+    this->lightPos = newLightPos;
 }
+
+void Light::setLumens(float lumens)
+{
+    this->lumens = lumens;
+}
+
+
+

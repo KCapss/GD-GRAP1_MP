@@ -5,6 +5,9 @@
 #include <fstream>
 #include <sstream>
 
+#include "SwitchManager.h"
+
+
 #include <vector>
 
 
@@ -86,15 +89,23 @@ void Shader::viewUpdate(glm::mat4 viewMatrix)
         glm::value_ptr(viewMatrix));
 }
 
-void Shader::textureUpdate(GLuint texture)
+void Shader::textureUpdate(GLuint texture, string varName, int layer)
 {
-    GLuint tex0Loc = glGetUniformLocation(shaderProgram, "tex0");
-    glUniform1i(tex0Loc, 0);
+    GLuint tex0Loc = glGetUniformLocation(shaderProgram, varName.c_str());  
     glBindTexture(GL_TEXTURE_2D, texture);
+    glUniform1i(tex0Loc, layer);
 }
 
 void Shader::LightUpdate(Light *refLight)
 {
+    float activeLight = SwitchManager::getInstance()->isShipLightActive();
+    //cout << activeLight << endl;
+    GLuint lightTypeAddress = glGetUniformLocation(shaderProgram, "lightType");
+    glUniform1f(lightTypeAddress, activeLight);
+
+    GLuint lightLumensAddress = glGetUniformLocation(shaderProgram, "lumens");
+    glUniform1f(lightLumensAddress, refLight->getLumens());
+
     GLuint lightPosAddress = glGetUniformLocation(shaderProgram, "lightPos");
     glUniform3fv(lightPosAddress, 1, glm::value_ptr(refLight->getLightPos()));
 

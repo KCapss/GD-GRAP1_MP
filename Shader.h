@@ -7,6 +7,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Light.h"
+#include <string>
+using namespace std;
 
 //#include
 
@@ -38,9 +40,8 @@ public:
 	
 
 //Fragment Shader
-	void textureUpdate(GLuint texture);
+	void textureUpdate(GLuint texture, string varName, int layer);
 	void LightUpdate(Light *refLight); //Retrieve Light Class;
-
 	void cameraUpdatePos(glm::vec3 cameraPos);
 
 //Normal Map

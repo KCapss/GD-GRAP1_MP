@@ -7,31 +7,40 @@ class Player :
 {
 public:
     //Constructor
-    Player(std::string);
+    Player(std::string name, GLFWwindow *window);
+    void recomputeTransform();
 
-    enum currCam { Perspective = 1, Orthographic = 2};
-    
-    
-
-    //Switch Function
+    //switch
     void cameraSwitch();
     void lightSwitch();
 
+    //Pre-Operation
+    void loadObj();
+    void loadTexture();
+    void loadBuffer();
+
+    //Computation
+    void updateLightForward();
+    
     //UpdateFunction
     void playerMovement();
     void updateCamera();
+    void updateLight();
 
-    
+    void update();
     void draw(); //override base class draw()
 
 private:
+    const float SHIP_FORWARD_SPEED = 100.f;
+    const float SHIP_ROTATION_SPEED = 0.3f;
     float camDistance;
-    glm::mat4 transform = glm::mat4(1.0f);
-
-    bool isShipLightActive = true; //default Parameter
+    glm::mat4 shipTransform = glm::mat4(1.0f);
 
 
-    //Note: Create a singleton for inputManager
+    //Special Parameters
+    unsigned char* norm_bytes;
+    GLuint normTexture = 0;
+
 
 };
 

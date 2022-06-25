@@ -21,6 +21,7 @@ public:
     void loadBuffer();
 
 
+    void update();
     void draw();
     void deAllocate();
 

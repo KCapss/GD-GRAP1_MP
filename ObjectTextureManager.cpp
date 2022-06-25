@@ -14,13 +14,30 @@ ObjectTextureManager* ObjectTextureManager::getInstance() {
 }
 void ObjectTextureManager::loadAll()
 {
+	//with no texture
+	loadObj("planet", "3D/planet.obj");
+	loadObj("ship", "3D/shipPlayer.obj");
+
 	//Loading for Obj
-	loadObj("sword", "3D/sword.obj");
+	loadObj("tower", "3D/towerDebri.obj");
+	loadObj("generator", "3D/generatorDebri.obj");
+	loadObj("statue2", "3D/statue2Debri.obj");
+	loadObj("statue", "3D/statueDebri.obj");
+	loadObj("spaceRock", "3D/spaceRockDebri.obj");
+	
+	//loadObj
 
 	//Loading for Texture;
-	loadTexture("sword", "3D/swordTexture.jpg");
+	loadTexture("ship", "3D/shipPlayerTexture.jpg");
 
-	//Additional Feat. Load for Skybox Array List;
+	loadTexture("tower", "3D/towerDebriTexture.jpg");
+	loadTexture("generator", "3D/generatorDebriTexture.jpg");
+	loadTexture("statue2", "3D/statue2DebriTexture.jpg");
+	loadTexture("statue", "3D/statueDebriTexture.jpg");
+	loadTexture("spaceRock", "3D/spaceRockDebriTexture.jpg");
+
+	//Load for Texture with Normal Map
+	loadTexture("shipNormal", "3D/shipPlayerNormalTexture.jpg");
 }
 
 std::string ObjectTextureManager::getObjPath(std::string key)

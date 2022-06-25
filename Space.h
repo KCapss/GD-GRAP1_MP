@@ -9,6 +9,9 @@
 
 #include "Model.h"
 #include "Skybox.h"
+#include "Player.h"
+
+
 #include "Light.h"
 #include "PerspectiveCamera.h"
 #include "OrthographicCamera.h"
@@ -26,19 +29,30 @@ public:
 
 	void initializeObj();
 
+	void update();
 	void draw();
 	void deleteBuffer();
-	
-	
+
+	//Debri Handler
+	void debriInitialize();
+	void debriRetrieveSource();
+	void debriSetup();
+	void drawDebri();
+	void deleteDebri();
 	
 
-
-	
 private:
 	//Interface:
 	Skybox* skybox;
 	//Model for the player;
-	Model* model; //change into vector later Note. An array of Debris
+	Model* planet;
+
+	Model* tower;
+	Model* generators;
+	Model* spaceRock;
+	Model* statue;
+	Model* statue2;
+	Player* player;
 
 	//External Src
 	Light* lightSrc;

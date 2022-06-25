@@ -15,7 +15,7 @@
 //Class include
 #include "Shader.h"
 #include "Light.h"
-#include "PerspectiveCamera.h" // Replace Later with specific camera type
+#include "PerspectiveCamera.h" 
 #include "OrthographicCamera.h"
 
 enum ObjectType {
@@ -25,11 +25,7 @@ enum ObjectType {
 	TextureAndNormals = 3
 };
 
-//Optianal Feature enum for Rotating Debris
-
-
-
-//Create A single structure to access all texture, objfile and/or skybox
+enum ActiveCam { Perspective = 1, Orthographic = 2 };
 
 
 //This is class for general purpose in using for planet and debris
@@ -39,24 +35,39 @@ class Model
 
 public:
 	Model(); //Empty 
-	Model(std::string name, ObjectType objType, GLFWwindow *currWindow); //Universal of the Class
+	Model(std::string name, ObjectType objType, GLFWwindow *currWindow); //Universal Constructor of the Class
 
 	//Setup Function
-	void retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam); // All external model have same sources
-	void setInitialPos(glm::vec3 pos);
+	void retrieveSource(Light* light, PerspectiveCamera* perspCam, OrthographicCamera* orthoCam); // All model have same sources
+	void setInitialPos(glm::vec3 pos); //Debri Pre defined starting Pos
+	void setInitialRotation(glm::vec3 objRot);
+	void setInitialScale(glm::vec3 objScale);
+
 
 
 	//Initialization Process
-	void loadObj();
-	void loadTexture();
-	void loadBuffer();
+	virtual void loadObj();
+	virtual void loadTexture();
+	virtual void loadBuffer();
 	//void loadShaders();
+
+
+//Getter Function
+	//Camera
+	glm::vec3 retrieveCamPos();
+	glm::mat4 retrieveCamMat();
+	glm::mat4 retrieveCamProj();
+
 
 	//EdgeCase Process
 	/*void loadSkyboxtexture();*/
 
+//Compute Properties
+	void updateLight();
 
-	//Process
+//Process
+	//Switch Function
+	void update();
 	void draw();
 
 	//Removing Buffer after program ends
@@ -66,8 +77,12 @@ public:
 protected:
 	//Obj information = Default
 	std::string name{};
-	ObjectType objType = ObjectType::NoTexture; 
 	GLFWwindow* window;
+
+
+	ObjectType objType = ObjectType::NoTexture;
+	ActiveCam  currCam = Perspective;
+	
 
 	//class container
 	Light* light;
@@ -75,6 +90,7 @@ protected:
 	PerspectiveCamera* perspCam;
 	OrthographicCamera* orthoCam;
 
+	
 
 protected:
 	//Obj Vertex data
@@ -84,10 +100,19 @@ protected:
 
 	//Buffer
 	GLuint VAO, VBO;
+
 	
-private:
+	
+protected:
 	//Obj Properties
-	glm::vec3 position = glm::vec3(0);
+	glm::vec3 objPosition = glm::vec3(0.0f);
+	glm::vec3 objScale = glm::vec3(1.0f);
+	glm::vec3 objRotation = glm::vec3(0.f);
+
+	//Animation
+	GLuint currTime;
+	float lastTime = 0;
+	float deltaTime = 0;
 
 	
 	

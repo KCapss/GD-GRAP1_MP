@@ -1,5 +1,6 @@
 #include "Camera.h"
 
+//Default Constructor
 Camera::Camera()
 {
     this->cameraPos = glm::vec3(0, 0, -30.0f);
@@ -10,13 +11,14 @@ Camera::Camera()
     updateCamera();
 }
 
+//Camera Update
 void Camera::updateCamera()
 {
-    //this->cameraPos = glm::vec3(0, 0, -10.0f);
+   
     glm::mat4 cameraPositionMatrix = glm::translate(glm::mat4(1.0f),
         cameraPos * -1.0f);
 
-    //Option 1 = Non Standard
+    //Option 1 = Manual Computation
     glm::vec3 F = glm::normalize(glm::vec3(Center - cameraPos));
     glm::vec3 R = glm::normalize(glm::cross(F, WorldUp));
     glm::vec3 U = (glm::cross(R, F));
@@ -28,9 +30,9 @@ void Camera::updateCamera()
         glm::vec4(glm::vec3(0, 0, 0), 1.0f));
     cameraOrientation = glm::transpose(cameraOrientation);
     this->viewMatrix = cameraOrientation * cameraPositionMatrix;
-    //this->viewMatrix = glm::lookAt(cameraPos, Center, WorldUp);
+   
 }
-
+//Getter
 glm::vec3 Camera::getCameraPos()
 {
     return this->cameraPos;
@@ -40,3 +42,5 @@ glm::mat4 Camera::getViewMatrix()
 {
     return this->viewMatrix;
 }
+
+
