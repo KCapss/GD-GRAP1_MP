@@ -25,7 +25,7 @@ bool Space::initializeWindow()
         return true;
 
     //Init Window
-    this->window = glfwCreateWindow(lengthDim, widthDim, "Kevin Capalar", NULL, NULL);
+    this->window = glfwCreateWindow(lengthDim, widthDim, "GDGRAP01- Space Exploration", NULL, NULL);
     if (!this->window)
     {
         glfwTerminate();
